@@ -42,4 +42,6 @@ public class StudentService {
         return studentRepository.findById(id).getFaculty();
     }
 
+
+
 }
