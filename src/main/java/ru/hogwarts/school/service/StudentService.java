@@ -20,7 +20,7 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
-        return studentRepository.findById(id);
+        return studentRepository.findById(id).orElse(null);
     }
 
     public Student editStudent(Student student) {
@@ -39,7 +39,7 @@ public class StudentService {
     }
 
     public Faculty getFaculty(long id) {
-        return studentRepository.findById(id).getFaculty();
+        return studentRepository.findById(id).get().getFaculty();
     }
 
 

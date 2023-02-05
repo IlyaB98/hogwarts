@@ -1,7 +1,6 @@
 package ru.hogwarts.school.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -18,6 +17,8 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     @JsonBackReference
     private Faculty faculty;
+
+
 
     public Faculty getFaculty() {
         return faculty;
