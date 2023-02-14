@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("student")
@@ -65,5 +66,10 @@ public class StudentController {
     @GetMapping("/latest-students")
     public Collection<Student> getLatestStudents() {
         return studentService.getLatestStudents();
+    }
+
+    @GetMapping("/all-students-beginning-with-a-letter/{letter}")
+    public List<String> getAllStudentsBeginningWithLetter(@PathVariable("letter") char letter) {
+        return studentService.getAllStudentsBeginningWithLetter(letter);
     }
 }

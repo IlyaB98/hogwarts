@@ -8,6 +8,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -43,6 +46,7 @@ public class FacultyService {
         logger.info("Find faculty by color: {}", color);
         return facultyRepository.findByColorIgnoreCase(color);
     }
+
     public Faculty findByName(String name) {
         logger.info("Find faculty by name: {}", name);
         return facultyRepository.findByNameIgnoreCase(name);
@@ -51,5 +55,28 @@ public class FacultyService {
     public Collection<Student> getStudents(long facultyId) {
         logger.info("Get students for faculty id: {}", facultyId);
         return facultyRepository.getReferenceById(facultyId).getStudents();
+    }
+
+    public String getLongestName() {
+        logger.info("Was invoked method for get longest name");
+
+        return facultyRepository.findAll()
+                .stream()
+                .max(Comparator.comparing(faculty -> faculty.getName().length()))
+                .map(Faculty::getName)
+                .orElseThrow();
+    }
+
+    public int sumIterate() {
+        long timeStart = System.currentTimeMillis();
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .parallel()
+                .reduce(0, Integer::sum);
+
+        long time = System.currentTimeMillis() - timeStart;
+
+        logger.info("Method execution time: {} ms", time);
+        return sum;
     }
 }
