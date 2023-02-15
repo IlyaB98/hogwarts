@@ -7,14 +7,16 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StudentService {
+
+    final Object flag = new Object();
+    Integer count = 0;
     private final StudentRepository studentRepository;
 
-    Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -81,5 +83,53 @@ public class StudentService {
                         name.charAt(0) == Character.toUpperCase(letter))
                 .sorted()
                 .toList();
+    }
+
+    public void getStudentListStream() {
+
+        List<String> students = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+
+
+        System.out.println(students.get(0));
+        System.out.println(students.get(1));
+
+
+        new Thread(() -> {
+            System.out.println(students.get(2));
+            System.out.println(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(students.get(4));
+            System.out.println(students.get(5));
+        }).start();
+    }
+
+    public void getSynchronizedList() {
+
+        doPrint(0);
+        doPrint(1);
+
+        new Thread(() -> {
+            doPrint(2);
+            doPrint(3);
+        }).start();
+
+        new Thread(() -> {
+            doPrint(4);
+            doPrint(5);
+        }).start();
+    }
+
+    private void doPrint(int number) {
+        List<String> students = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+        synchronized (flag) {
+            System.out.println(students.get(number) + " " + count);
+            count++;
+        }
     }
 }

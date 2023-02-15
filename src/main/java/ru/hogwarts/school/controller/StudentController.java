@@ -72,4 +72,13 @@ public class StudentController {
     public List<String> getAllStudentsBeginningWithLetter(@PathVariable("letter") char letter) {
         return studentService.getAllStudentsBeginningWithLetter(letter);
     }
+
+    @GetMapping("/student-list-stream")
+    public void getStudentListStream() {
+        studentService.getStudentListStream();
+    }
+    @GetMapping("/student-list-treads")
+    public void getSynchronizedList() {
+        studentService.getSynchronizedList();
+    }
 }
