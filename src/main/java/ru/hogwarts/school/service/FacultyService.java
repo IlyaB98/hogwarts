@@ -9,14 +9,13 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
     private final FacultyRepository facultyRepository;
 
-    Logger logger = LoggerFactory.getLogger(FacultyService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
@@ -67,12 +66,14 @@ public class FacultyService {
                 .orElseThrow();
     }
 
-    public int sumIterate() {
+    public long sumIterate() {
         long timeStart = System.currentTimeMillis();
-        int sum = Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .parallel()
-                .reduce(0, Integer::sum);
+//        long sum = Stream.iterate(1L, a -> a + 1)
+//                .limit(1_000_000)
+//                .parallel()
+//                .reduce(0L, (a, b) -> a + b);
+
+        long sum = ((((1 + 1_000_000) / 2)) * 1_000_000L);
 
         long time = System.currentTimeMillis() - timeStart;
 
